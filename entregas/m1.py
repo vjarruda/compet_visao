@@ -123,6 +123,31 @@ print("Índice do quadro do meio:", indice_meio)
 print("Quadro salvo:", frame_nome)
 print("Vídeo criado:", video_nome)
 
+pasta_frames = os.path.join(diretorio_atual, "frames")
+os.makedirs(pasta_frames, exist_ok=True) 
+
+for i, q in enumerate(quadros):
+    caminho_frame = os.path.join(pasta_frames, f"{i:03d}.jpg")
+    cv2.imwrite(caminho_frame, q)
+
+print(f"Todos os {len(quadros)} quadros foram salvos na pasta 'frames/'.")
+
+
+quadro_meio = quadros[indice_meio]
+
+quadro_cinza = cv2.cvtColor(quadro_meio, cv2.COLOR_BGR2GRAY)
+bordas_canny = cv2.Canny(quadro_cinza, 100, 200) 
+
+nome_bordas = os.path.join(diretorio_atual, "frame_meio_bordas.jpg")
+cv2.imwrite(nome_bordas, bordas_canny)
+
+print(f"Borda do quadro do meio detectada e salva em: {nome_bordas}")
+
+
+duracao_segundos = total_quadros / fps_video
+
+print(f"A duração total do vídeo é de {duracao_segundos:.2f} segundos.")
+
 
 # O video é representado coomo uma sequencia de imagens exibidas a uma taxa de quadros por segundo chamada FPS 
 # cada quadro é uma grade de pixes onde cada pixel possui tres canais de cor (azul, verdde e vermelho) que definem sua cor.
